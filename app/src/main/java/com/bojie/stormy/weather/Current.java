@@ -1,11 +1,13 @@
-package com.bojie.stormy;
+package com.bojie.stormy.weather;
+
+import com.bojie.stormy.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
 
-public class CurrentWeather {
+public class Current {
     private String mIcon;
     private long mTime;
     private double mTemperature;
