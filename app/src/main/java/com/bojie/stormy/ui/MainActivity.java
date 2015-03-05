@@ -39,6 +39,7 @@ import butterknife.OnClick;
 public class MainActivity extends ActionBarActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String DAILY_FORECAST = "DAILY_FORECAST";
 
     private Forecast mForecast;
 
@@ -82,6 +83,7 @@ public class MainActivity extends ActionBarActivity {
         Log.d(TAG, "Main UI code is running!");
     }
 
+    // https://api.forecast.io/forecast/c983f92d7ca8bd9f5f54350a6645a070/37.8267,-122.423
     private void getForecast(double latitude, double longitude) {
         String apiKey = "c983f92d7ca8bd9f5f54350a6645a070";
         String forecastUrl = "https://api.forecast.io/forecast/" + apiKey +
@@ -170,12 +172,29 @@ public class MainActivity extends ActionBarActivity {
         Forecast forecast = new Forecast();
         forecast.setCurrent(getCurrentDetails(jsonData));
         forecast.setHourlyForecast(getHourlyForecast(jsonData));
-        forecast.setDaylyForecast(getDailyForecast(jsonData));
+        forecast.setDailyForecast(getDailyForecast(jsonData));
         return forecast;
     }
 
     private Day[] getDailyForecast(String jsonData) throws JSONException{
-        return new Day[0];
+        JSONObject forecast = new JSONObject(jsonData);
+        String timezone = forecast.getString("timezone");
+        JSONObject daily = forecast.getJSONObject("daily");
+        JSONArray data = daily.getJSONArray("data");
+
+        Day[] days = new Day[data.length()];
+        for(int i = 0; i < data.length(); i++) {
+            JSONObject jsonDay = data.getJSONObject(i);
+            Day day = new Day();
+            day.setSummary(jsonDay.getString("summary"));
+            day.setTemperatureMax(jsonDay.getDouble("temperatureMax"));
+            day.setIcon(jsonDay.getString("icon"));
+            day.setTime(jsonDay.getLong("time"));
+            day.setTimezone(timezone);
+
+            days[i] = day;
+        }
+        return days;
     }
 
     private Hour[] getHourlyForecast(String jsonData) throws JSONException{
@@ -241,6 +260,7 @@ public class MainActivity extends ActionBarActivity {
     @OnClick(R.id.btn_daily)
     public void startDailyActivity(View view){
         Intent intent = new Intent(this, DailyForecastActivity.class);
+        intent.putExtra(DAILY_FORECAST, mForecast.getDailyForecast());
         startActivity(intent);
     }
 }

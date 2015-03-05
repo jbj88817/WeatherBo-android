@@ -8,7 +8,7 @@ import com.bojie.stormy.R;
 public class Forecast {
     private Current mCurrent;
     private Hour[] mHourlyForecast;
-    private Day[] mDaylyForecast;
+    private Day[] mDailyForecast;
 
     public Current getCurrent() {
         return mCurrent;
@@ -26,12 +26,12 @@ public class Forecast {
         mHourlyForecast = hourlyForecast;
     }
 
-    public Day[] getDaylyForecast() {
-        return mDaylyForecast;
+    public Day[] getDailyForecast() {
+        return mDailyForecast;
     }
 
-    public void setDaylyForecast(Day[] daylyForecast) {
-        mDaylyForecast = daylyForecast;
+    public void setDailyForecast(Day[] dailyForecast) {
+        mDailyForecast = dailyForecast;
     }
 
     public static int getIconId(String iconString) {
