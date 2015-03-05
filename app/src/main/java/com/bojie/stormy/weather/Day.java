@@ -80,7 +80,6 @@ public class Day implements Parcelable{
 
         dest.writeLong(mTime);
         dest.writeString(mSummary);
-
         dest.writeDouble(mTemperatureMax);
         dest.writeString(mIcon);
         dest.writeString(mTimezone);
