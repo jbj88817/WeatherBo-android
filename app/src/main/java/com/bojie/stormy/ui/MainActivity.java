@@ -3,6 +3,9 @@ package com.bojie.stormy.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -41,6 +44,9 @@ public class MainActivity extends ActionBarActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
     public static final String DAILY_FORECAST = "DAILY_FORECAST";
     public static final String HOURLY_FORECAST = "HOURLY_FORECAST";
+    private double mLongitude;
+    private double mLatitude;
+
 
     private Forecast mForecast;
 
@@ -69,19 +75,23 @@ public class MainActivity extends ActionBarActivity {
 
         mProgressBar.setVisibility(View.INVISIBLE);
 
-        final double latitude = 37.8267;
-        final double longitude = -122.423;
+        // Get location
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
+        Location location = lm.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+
+        mLongitude = location.getLongitude();
+        mLatitude = location.getLatitude();
 
         mRefreshImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getForecast(latitude, longitude);
+                getForecast(mLatitude, mLongitude);
             }
         });
 
-        getForecast(latitude, longitude);
+        getForecast(mLatitude, mLongitude);
 
-        Log.d(TAG, "Main UI code is running!");
     }
 
     // https://api.forecast.io/forecast/c983f92d7ca8bd9f5f54350a6645a070/37.8267,-122.423
@@ -177,14 +187,14 @@ public class MainActivity extends ActionBarActivity {
         return forecast;
     }
 
-    private Day[] getDailyForecast(String jsonData) throws JSONException{
+    private Day[] getDailyForecast(String jsonData) throws JSONException {
         JSONObject forecast = new JSONObject(jsonData);
         String timezone = forecast.getString("timezone");
         JSONObject daily = forecast.getJSONObject("daily");
         JSONArray data = daily.getJSONArray("data");
 
         Day[] days = new Day[data.length()];
-        for(int i = 0; i < data.length(); i++) {
+        for (int i = 0; i < data.length(); i++) {
             JSONObject jsonDay = data.getJSONObject(i);
             Day day = new Day();
             day.setSummary(jsonDay.getString("summary"));
@@ -198,14 +208,14 @@ public class MainActivity extends ActionBarActivity {
         return days;
     }
 
-    private Hour[] getHourlyForecast(String jsonData) throws JSONException{
+    private Hour[] getHourlyForecast(String jsonData) throws JSONException {
         JSONObject forecast = new JSONObject(jsonData);
         String timezone = forecast.getString("timezone");
         JSONObject hourly = forecast.getJSONObject("hourly");
         JSONArray data = hourly.getJSONArray("data");
 
         Hour[] hours = new Hour[data.length()];
-        for(int i = 0; i < data.length(); i++) {
+        for (int i = 0; i < data.length(); i++) {
             JSONObject jsonHour = data.getJSONObject(i);
             Hour hour = new Hour();
             hour.setSummary(jsonHour.getString("summary"));
@@ -259,7 +269,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @OnClick(R.id.btn_daily)
-    public void startDailyActivity(View view){
+    public void startDailyActivity(View view) {
         Intent intent = new Intent(this, DailyForecastActivity.class);
         intent.putExtra(DAILY_FORECAST, mForecast.getDailyForecast());
         startActivity(intent);
@@ -271,4 +281,29 @@ public class MainActivity extends ActionBarActivity {
         intent.putExtra(HOURLY_FORECAST, mForecast.getHourlyForecast());
         startActivity(intent);
     }
+
+
+    private final LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            mLongitude = location.getLongitude();
+            mLatitude = location.getLatitude();
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
+
+
 }
