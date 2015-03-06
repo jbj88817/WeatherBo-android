@@ -13,6 +13,7 @@ public class Current {
     private double mPrecipChance;
     private String mSummary;
     private String mTimeZone;
+    private String mCityName;
 
     public String getTimeZone() {
         return mTimeZone;
@@ -65,6 +66,14 @@ public class Current {
 
     public void setHumidity(double humidity) {
         mHumidity = humidity;
+    }
+
+    public String getCityName() {
+        return mCityName;
+    }
+
+    public void setCityName(String cityName) {
+        mCityName = cityName;
     }
 
     public int getPrecipChance() {

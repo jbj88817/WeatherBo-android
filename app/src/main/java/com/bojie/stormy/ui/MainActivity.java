@@ -58,6 +58,7 @@ public class MainActivity extends ActionBarActivity
     public static final String TAG = MainActivity.class.getSimpleName();
     public static final String DAILY_FORECAST = "DAILY_FORECAST";
     public static final String HOURLY_FORECAST = "HOURLY_FORECAST";
+    public static final String CITY_NAME = "CITYNAME";
     private double mLongitude;
     private double mLatitude;
     private String mCityName;
@@ -134,6 +135,7 @@ public class MainActivity extends ActionBarActivity
                 mCityName = addresses.get(0).getAddressLine(1);
                 mCityName = mCityName.replaceAll("[\\d.]", "");
                 Log.d(TAG + "!!!!!!!!!!!", mCityName);
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -146,6 +148,7 @@ public class MainActivity extends ActionBarActivity
         mGoogleApiClient.connect();
         if (mLongitude != 0 && mLatitude != 0) {
             getForecast(mLatitude, mLongitude);
+            getCityName();
         }
 
     }
@@ -250,6 +253,7 @@ public class MainActivity extends ActionBarActivity
         mPrecipValue.setText(current.getPrecipChance() + "%");
         mSummaryLabel.setText(current.getSummary());
         mLocationLabel.setText(mCityName);
+        current.setCityName(mCityName);
 
         Drawable drawable = getResources().getDrawable(current.getIconId());
         mIconImageView.setImageDrawable(drawable);
@@ -348,6 +352,7 @@ public class MainActivity extends ActionBarActivity
     public void startDailyActivity(View view) {
         Intent intent = new Intent(this, DailyForecastActivity.class);
         intent.putExtra(DAILY_FORECAST, mForecast.getDailyForecast());
+        intent.putExtra(CITY_NAME, mCityName);
         startActivity(intent);
     }
 

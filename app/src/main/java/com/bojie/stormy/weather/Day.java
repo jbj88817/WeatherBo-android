@@ -16,6 +16,7 @@ public class Day implements Parcelable{
     private double mTemperatureMax;
     private String mIcon;
     private String mTimezone;
+    private String mCityName;
 
     public Day(){ }
 
@@ -61,6 +62,14 @@ public class Day implements Parcelable{
 
     public int getIconId(){
         return Forecast.getIconId(mIcon);
+    }
+
+    public String getCityName() {
+        return mCityName;
+    }
+
+    public void setCityName(String cityName) {
+        mCityName = cityName;
     }
 
     public String getDayOfTheWeek() {

@@ -27,6 +27,8 @@ public class DailyForecastActivity extends ActionBarActivity {
     ListView mListView;
     @InjectView(android.R.id.empty)
     TextView mEmptyTextView;
+    @InjectView(R.id.tv_LocationLabel)
+    TextView mLocationLabel;
 
 
     @Override
@@ -57,6 +59,8 @@ public class DailyForecastActivity extends ActionBarActivity {
 
             }
         });
+        String cityName = intent.getStringExtra(MainActivity.CITY_NAME);
+        mLocationLabel.setText(cityName);
 
     }
 }
