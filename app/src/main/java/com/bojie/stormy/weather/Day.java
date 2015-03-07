@@ -36,8 +36,8 @@ public class Day implements Parcelable{
         mSummary = summary;
     }
 
-    public int getTemperatureMax() {
-        return (int)Math.round(mTemperatureMax);
+    public double getTemperatureMax() {
+        return mTemperatureMax;
     }
 
     public void setTemperatureMax(double temperatureMax) {

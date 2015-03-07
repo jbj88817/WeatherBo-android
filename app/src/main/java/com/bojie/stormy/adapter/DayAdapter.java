@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bojie.stormy.R;
+import com.bojie.stormy.ui.MainActivity;
+import com.bojie.stormy.util.UnitConvert;
 import com.bojie.stormy.weather.Day;
 
 /**
@@ -56,7 +58,14 @@ public class DayAdapter extends BaseAdapter {
 
         Day day = mDays[position];
         holder.iconImageView.setImageResource(day.getIconId());
-        holder.temperatureLabel.setText(day.getTemperatureMax() + "");
+        double TempInF = day.getTemperatureMax();
+        double TempInC = UnitConvert.fahrenheitToCelsius(TempInF);
+        if (MainActivity.mButtonUnitConvert.getText() == "F") {
+            holder.temperatureLabel.setText(Math.round(TempInF) + "");
+        } else {
+            holder.temperatureLabel.setText(Math.round(TempInC) + "");
+        }
+
         if (position == 0) {
             holder.dayLabel.setText("Today");
         } else {

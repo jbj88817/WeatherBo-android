@@ -174,4 +174,16 @@
             />
     </LinearLayout>
 
+    <Button
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="F"
+        android:id="@+id/btn_unit"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/temperatureLabel"
+        android:background="#40ffffff"
+        android:textColor="#ffffff"
+        android:textSize="17sp"/>
+
 </RelativeLayout>

@@ -34,8 +34,8 @@ public class Hour implements Parcelable{
         mSummary = summary;
     }
 
-    public int getTemperature() {
-        return (int)Math.round(mTemperature);
+    public double getTemperature() {
+        return mTemperature;
     }
 
     public void setTemperature(double temperature) {

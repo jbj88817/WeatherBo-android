@@ -17,12 +17,14 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bojie.stormy.R;
+import com.bojie.stormy.util.UnitConvert;
 import com.bojie.stormy.weather.Current;
 import com.bojie.stormy.weather.Day;
 import com.bojie.stormy.weather.Forecast;
@@ -59,9 +61,13 @@ public class MainActivity extends ActionBarActivity
     public static final String DAILY_FORECAST = "DAILY_FORECAST";
     public static final String HOURLY_FORECAST = "HOURLY_FORECAST";
     public static final String CITY_NAME = "CITYNAME";
+    static public Button mButtonUnitConvert;
+
     private double mLongitude;
     private double mLatitude;
     private String mCityName;
+    private double mCurrentTempInF;
+    private double mCurrentTempInC;
 
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
@@ -93,9 +99,11 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+        mButtonUnitConvert = (Button) findViewById(R.id.btn_unit);
 
         mProgressBar.setVisibility(View.INVISIBLE);
 
+        mForecast = new Forecast();
 
         // Check if has GPS
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -120,10 +128,10 @@ public class MainActivity extends ActionBarActivity
             }
         });
 
-        // Get cityName
-        getCityName();
-
-
+        if (mLongitude != 0 && mLatitude != 0) {
+            getForecast(mLatitude, mLongitude);
+            getCityName();
+        }
     }
 
     private void getCityName() {
@@ -322,7 +330,16 @@ public class MainActivity extends ActionBarActivity
         current.setIcon(currently.getString("icon"));
         current.setPrecipChance(currently.getDouble("precipProbability"));
         current.setSummary(currently.getString("summary"));
-        current.setTemperature(currently.getDouble("temperature"));
+        mCurrentTempInF = currently.getDouble("temperature");
+        mCurrentTempInC = UnitConvert.fahrenheitToCelsius(mCurrentTempInF);
+        current.setTemperature(mCurrentTempInF);
+        // Change unit
+        if (mButtonUnitConvert.getText() == "F") {
+            current.setTemperature(mCurrentTempInF);
+        } else if (mButtonUnitConvert.getText() == "C") {
+            current.setTemperature(mCurrentTempInC);
+        }
+
         current.setTimeZone(timezone);
 
         Log.d(TAG, current.getFormattedTime());
@@ -351,16 +368,38 @@ public class MainActivity extends ActionBarActivity
     @OnClick(R.id.btn_daily)
     public void startDailyActivity(View view) {
         Intent intent = new Intent(this, DailyForecastActivity.class);
-        intent.putExtra(DAILY_FORECAST, mForecast.getDailyForecast());
-        intent.putExtra(CITY_NAME, mCityName);
-        startActivity(intent);
+        if (mForecast.getDailyForecast() != null) {
+            intent.putExtra(DAILY_FORECAST, mForecast.getDailyForecast());
+            intent.putExtra(CITY_NAME, mCityName);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Please enable the GPS", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @OnClick(R.id.btn_hourly)
     public void startHourlyActivity(View view) {
         Intent intent = new Intent(this, HourlyForecastActivity.class);
-        intent.putExtra(HOURLY_FORECAST, mForecast.getHourlyForecast());
-        startActivity(intent);
+        if (mForecast.getHourlyForecast() != null) {
+            intent.putExtra(HOURLY_FORECAST, mForecast.getHourlyForecast());
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Please enable the GPS", Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+
+    @OnClick(R.id.btn_unit)
+    public void convertUnit(View view) {
+        if (mButtonUnitConvert.getText() == "F") {
+            mTemperatureLabel.setText(Math.round(mCurrentTempInC) + "");
+            mButtonUnitConvert.setText("C");
+        } else {
+            mTemperatureLabel.setText(Math.round(mCurrentTempInF) + "");
+            mButtonUnitConvert.setText("F");
+        }
     }
 
 
@@ -414,6 +453,7 @@ public class MainActivity extends ActionBarActivity
                                 Intent callGPSSettingIntent = new Intent(
                                         android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                                 startActivity(callGPSSettingIntent);
+                                onResume();
                             }
                         });
         alertDialogBuilder.setNegativeButton("Cancel",

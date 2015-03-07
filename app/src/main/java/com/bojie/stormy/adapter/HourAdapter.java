@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bojie.stormy.R;
+import com.bojie.stormy.ui.MainActivity;
+import com.bojie.stormy.util.UnitConvert;
 import com.bojie.stormy.weather.Hour;
 
 /**
@@ -66,7 +68,14 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
         public void bindHour(Hour hour) {
             mTimeLabel.setText(hour.getHour());
             mSummaryLabel.setText(hour.getSummary());
-            mTemperatureLabel.setText(hour.getTemperature() + "");
+            // Convert unit
+            double TempInF = hour.getTemperature();
+            double TempInC = UnitConvert.fahrenheitToCelsius(TempInF);
+            if (MainActivity.mButtonUnitConvert.getText() == "F") {
+                mTemperatureLabel.setText(Math.round(TempInF) + "");
+            } else {
+                mTemperatureLabel.setText(Math.round(TempInC) + "");
+            }
             mIconImageView.setImageResource(hour.getIconId());
         }
 
