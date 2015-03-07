@@ -60,9 +60,10 @@ public class DayAdapter extends BaseAdapter {
         holder.iconImageView.setImageResource(day.getIconId());
         double TempInF = day.getTemperatureMax();
         double TempInC = UnitConvert.fahrenheitToCelsius(TempInF);
+        holder.temperatureLabel.setText(Math.round(TempInF) + "");
         if (MainActivity.mButtonUnitConvert.getText() == "F") {
             holder.temperatureLabel.setText(Math.round(TempInF) + "");
-        } else {
+        } else if(MainActivity.mButtonUnitConvert.getText() == "C"){
             holder.temperatureLabel.setText(Math.round(TempInC) + "");
         }
 

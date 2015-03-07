@@ -520,6 +520,8 @@ public class MainActivity extends ActionBarActivity
 
         mLatitude = location.getLatitude();
         mLongitude = location.getLongitude();
+        getForecast(mLatitude, mLongitude);
+        getCityName();
 
     }
 }

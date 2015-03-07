@@ -71,9 +71,10 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
             // Convert unit
             double TempInF = hour.getTemperature();
             double TempInC = UnitConvert.fahrenheitToCelsius(TempInF);
+            mTemperatureLabel.setText(Math.round(TempInF) + "");
             if (MainActivity.mButtonUnitConvert.getText() == "F") {
                 mTemperatureLabel.setText(Math.round(TempInF) + "");
-            } else {
+            } else if(MainActivity.mButtonUnitConvert.getText() == "C"){
                 mTemperatureLabel.setText(Math.round(TempInC) + "");
             }
             mIconImageView.setImageResource(hour.getIconId());
