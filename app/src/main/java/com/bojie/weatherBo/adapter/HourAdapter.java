@@ -1,4 +1,4 @@
-package com.bojie.stormy.adapter;
+package com.bojie.weatherbo.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,10 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bojie.stormy.R;
-import com.bojie.stormy.ui.MainActivity;
-import com.bojie.stormy.util.UnitConvert;
-import com.bojie.stormy.weather.Hour;
+import com.bojie.weatherbo.R;
+import com.bojie.weatherbo.ui.MainActivity;
+import com.bojie.weatherbo.util.UnitConvert;
+import com.bojie.weatherbo.weather.Hour;
 
 /**
  * Created by bojiejiang on 3/5/15.
@@ -90,7 +90,7 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
                     temperature,
                     summary);
 
-            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.bojie.stormy.util;
+package com.bojie.weatherbo.util;
 
 /**
  * Created by bojiejiang on 3/6/15.

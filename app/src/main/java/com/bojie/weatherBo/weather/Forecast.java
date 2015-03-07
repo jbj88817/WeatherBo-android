@@ -1,6 +1,6 @@
-package com.bojie.stormy.weather;
+package com.bojie.weatherbo.weather;
 
-import com.bojie.stormy.R;
+import com.bojie.weatherbo.R;
 
 /**
  * Created by bojiejiang on 2/28/15.

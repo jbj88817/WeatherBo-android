@@ -1,4 +1,4 @@
-package com.bojie.stormy.weather;
+package com.bojie.weatherbo.weather;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

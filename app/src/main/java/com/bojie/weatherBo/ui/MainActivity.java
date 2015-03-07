@@ -1,4 +1,4 @@
-package com.bojie.stormy.ui;
+package com.bojie.weatherbo.ui;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -14,6 +14,7 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
@@ -23,12 +24,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bojie.stormy.R;
-import com.bojie.stormy.util.UnitConvert;
-import com.bojie.stormy.weather.Current;
-import com.bojie.stormy.weather.Day;
-import com.bojie.stormy.weather.Forecast;
-import com.bojie.stormy.weather.Hour;
+import com.bojie.weatherbo.R;
+import com.bojie.weatherbo.util.UnitConvert;
+import com.bojie.weatherbo.weather.Current;
+import com.bojie.weatherbo.weather.Day;
+import com.bojie.weatherbo.weather.Forecast;
+import com.bojie.weatherbo.weather.Hour;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -55,7 +56,8 @@ import butterknife.OnClick;
 public class MainActivity extends ActionBarActivity
         implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        com.google.android.gms.location.LocationListener {
+        com.google.android.gms.location.LocationListener,
+        SwipeRefreshLayout.OnRefreshListener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
     public static final String DAILY_FORECAST = "DAILY_FORECAST";
@@ -74,6 +76,7 @@ public class MainActivity extends ActionBarActivity
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
     private Forecast mForecast;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @InjectView(R.id.timeLabel)
     TextView mTimeLabel;
@@ -128,10 +131,16 @@ public class MainActivity extends ActionBarActivity
             }
         });
 
-        if (mLongitude != 0 && mLatitude != 0) {
-            getForecast(mLatitude, mLongitude);
-            getCityName();
-        }
+//        if (mLongitude != 0 && mLatitude != 0) {
+//            getForecast(mLatitude, mLongitude);
+//            getCityName();
+//        }
+
+        // SwipeRefresh
+        mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeColors(R.color.swipeRefresh1, R.color.swipeRefresh2,
+                R.color.swipeRefresh3, R.color.swipeRefresh4);
     }
 
     private void getCityName() {
@@ -523,5 +532,11 @@ public class MainActivity extends ActionBarActivity
         getForecast(mLatitude, mLongitude);
         getCityName();
 
+    }
+
+    @Override
+    public void onRefresh() {
+        getForecast(mLatitude, mLongitude);
+        getCityName();
     }
 }

@@ -1,4 +1,4 @@
-package com.bojie.stormy.ui;
+package com.bojie.weatherbo.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -6,7 +6,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.bojie.stormy.R;
+import com.bojie.weatherbo.R;
 
 
 public class AlertDialogFragment extends DialogFragment {

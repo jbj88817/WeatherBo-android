@@ -1,4 +1,4 @@
-package com.bojie.stormy.adapter;
+package com.bojie.weatherbo.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,10 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bojie.stormy.R;
-import com.bojie.stormy.ui.MainActivity;
-import com.bojie.stormy.util.UnitConvert;
-import com.bojie.stormy.weather.Day;
+import com.bojie.weatherbo.R;
+import com.bojie.weatherbo.ui.MainActivity;
+import com.bojie.weatherbo.util.UnitConvert;
+import com.bojie.weatherbo.weather.Day;
 
 /**
  * Created by bojiejiang on 3/3/15.

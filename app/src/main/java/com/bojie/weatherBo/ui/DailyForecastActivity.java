@@ -1,4 +1,4 @@
-package com.bojie.stormy.ui;
+package com.bojie.weatherbo.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +10,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bojie.stormy.R;
-import com.bojie.stormy.adapter.DayAdapter;
-import com.bojie.stormy.weather.Day;
+import com.bojie.weatherbo.R;
+import com.bojie.weatherbo.adapter.DayAdapter;
+import com.bojie.weatherbo.weather.Day;
 
 import java.util.Arrays;
 
@@ -55,7 +55,7 @@ public class DailyForecastActivity extends ActionBarActivity {
                         highTemp,
                         conditions);
 
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
 
             }
         });

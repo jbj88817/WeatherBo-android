@@ -1,28 +1,26 @@
-package com.bojie.stormy.weather;
+package com.bojie.weatherbo.weather;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * Created by bojiejiang on 2/28/15.
  */
-public class Day implements Parcelable{
+public class Hour implements Parcelable{
     private long mTime;
     private String mSummary;
-    private double mTemperatureMax;
+    private double mTemperature;
     private String mIcon;
     private String mTimezone;
-    private String mCityName;
-
-    public Day(){ }
 
     public long getTime() {
         return mTime;
     }
+
+    public Hour(){ }
 
     public void setTime(long time) {
         mTime = time;
@@ -36,16 +34,20 @@ public class Day implements Parcelable{
         mSummary = summary;
     }
 
-    public double getTemperatureMax() {
-        return mTemperatureMax;
+    public double getTemperature() {
+        return mTemperature;
     }
 
-    public void setTemperatureMax(double temperatureMax) {
-        mTemperatureMax = temperatureMax;
+    public void setTemperature(double temperature) {
+        mTemperature = temperature;
     }
 
     public String getIcon() {
         return mIcon;
+    }
+
+    public int getIconId(){
+        return Forecast.getIconId(mIcon);
     }
 
     public void setIcon(String icon) {
@@ -60,23 +62,10 @@ public class Day implements Parcelable{
         mTimezone = timezone;
     }
 
-    public int getIconId(){
-        return Forecast.getIconId(mIcon);
-    }
-
-    public String getCityName() {
-        return mCityName;
-    }
-
-    public void setCityName(String cityName) {
-        mCityName = cityName;
-    }
-
-    public String getDayOfTheWeek() {
-        SimpleDateFormat formatter = new SimpleDateFormat("EEEE");
-        formatter.setTimeZone(TimeZone.getTimeZone(mTimezone));
-        Date dateTime = new Date(mTime * 1000);
-        return formatter.format(dateTime);
+    public String getHour(){
+        SimpleDateFormat formatter = new SimpleDateFormat("h a");
+        Date date = new Date(mTime * 1000);
+        return formatter.format(date);
     }
 
     @Override
@@ -86,31 +75,31 @@ public class Day implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
         dest.writeLong(mTime);
+        dest.writeDouble(mTemperature);
         dest.writeString(mSummary);
-        dest.writeDouble(mTemperatureMax);
         dest.writeString(mIcon);
         dest.writeString(mTimezone);
     }
 
-    private Day(Parcel in){
+    private Hour(Parcel in){
         mTime = in.readLong();
+        mTemperature = in.readDouble();
         mSummary = in.readString();
-        mTemperatureMax = in.readDouble();
         mIcon = in.readString();
         mTimezone = in.readString();
     }
 
-    public static final Creator<Day> CREATOR = new Creator<Day>() {
+    public static final Creator<Hour> CREATOR = new Creator<Hour>() {
         @Override
-        public Day createFromParcel(Parcel source) {
-            return new Day(source);
+        public Hour createFromParcel(Parcel source) {
+            return new Hour(source);
         }
 
         @Override
-        public Day[] newArray(int size) {
-            return new Day[size];
+        public Hour[] newArray(int size) {
+            return new Hour[size];
         }
     };
+
 }

@@ -1,4 +1,4 @@
-package com.bojie.stormy.ui;
+package com.bojie.weatherbo.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,9 +7,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.bojie.stormy.R;
-import com.bojie.stormy.adapter.HourAdapter;
-import com.bojie.stormy.weather.Hour;
+import com.bojie.weatherbo.R;
+import com.bojie.weatherbo.adapter.HourAdapter;
+import com.bojie.weatherbo.weather.Hour;
 
 import java.util.Arrays;
 

@@ -2,5 +2,9 @@
 <resources>
     <color name="background">#FEB32B</color>
     <color name="ocean_green">#55B370</color>
+    <color name="swipeRefresh1">#482c6f</color>
+    <color name="swipeRefresh2">#ad78d9</color>
+    <color name="swipeRefresh3">#dcadf4</color>
+    <color name="swipeRefresh4">#ad78d9</color>
 
 </resources>

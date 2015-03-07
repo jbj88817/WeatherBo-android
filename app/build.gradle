@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.bojie.stormy"
+        applicationId "com.bojie.weatherbo"
         minSdkVersion 14
         targetSdkVersion 21
         versionCode 1
