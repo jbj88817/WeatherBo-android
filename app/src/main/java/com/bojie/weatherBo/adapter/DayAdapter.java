@@ -26,6 +26,7 @@ public class DayAdapter extends BaseAdapter {
         mDays = days;
     }
 
+
     @Override
     public int getCount() {
         return mDays.length;

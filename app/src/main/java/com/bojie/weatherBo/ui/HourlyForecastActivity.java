@@ -42,5 +42,4 @@ public class HourlyForecastActivity extends ActionBarActivity {
         mRecyclerView.setHasFixedSize(true);
     }
 
-
 }

@@ -12,8 +12,10 @@ import android.widget.Toast;
 
 import com.bojie.weatherbo.R;
 import com.bojie.weatherbo.adapter.DayAdapter;
+import com.bojie.weatherbo.util.UnitConvert;
 import com.bojie.weatherbo.weather.Day;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 
 import butterknife.ButterKnife;
@@ -49,7 +51,17 @@ public class DailyForecastActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String dayOfTheWeek = mDays[position].getDayOfTheWeek();
                 String conditions = mDays[position].getSummary();
-                String highTemp = mDays[position].getTemperatureMax() + "";
+
+                double TempInF = mDays[position].getTemperatureMax();
+                double TempInC = UnitConvert.fahrenheitToCelsius(TempInF);
+                DecimalFormat df = new DecimalFormat();
+                df.setMaximumFractionDigits(2);
+                String highTemp = df.format(TempInF) + "";
+                if (MainActivity.mButtonUnitConvert.getText() == "F") {
+                    highTemp = df.format(TempInF) + "";
+                } else if(MainActivity.mButtonUnitConvert.getText() == "C"){
+                    highTemp = df.format(TempInC) + "";
+                }
                 String message = String.format("On %s the high will be %s and it will be %s",
                         dayOfTheWeek,
                         highTemp,

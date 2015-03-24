@@ -2,6 +2,7 @@ package com.bojie.weatherbo.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import com.bojie.weatherbo.ui.MainActivity;
 import com.bojie.weatherbo.util.UnitConvert;
 import com.bojie.weatherbo.weather.Hour;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by bojiejiang on 3/5/15.
  */
@@ -21,6 +24,7 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
 
     private Hour[] mHours;
     private Context mContext;
+    double mTransferredTemp;
 
     public HourAdapter(Context contexts, Hour[] hours) {
         mHours = hours;
@@ -72,9 +76,12 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
             double TempInF = hour.getTemperature();
             double TempInC = UnitConvert.fahrenheitToCelsius(TempInF);
             mTemperatureLabel.setText(Math.round(TempInF) + "");
+            mTransferredTemp = TempInF;
             if (MainActivity.mButtonUnitConvert.getText() == "F") {
+                mTransferredTemp = TempInF;
                 mTemperatureLabel.setText(Math.round(TempInF) + "");
-            } else if(MainActivity.mButtonUnitConvert.getText() == "C"){
+            } else if (MainActivity.mButtonUnitConvert.getText() == "C") {
+                mTransferredTemp = TempInC;
                 mTemperatureLabel.setText(Math.round(TempInC) + "");
             }
             mIconImageView.setImageResource(hour.getIconId());
@@ -83,7 +90,12 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
         @Override
         public void onClick(View v) {
             String time = mTimeLabel.getText().toString();
-            String temperature = mTemperatureLabel.getText().toString();
+            // Format decimal
+            DecimalFormat df = new DecimalFormat();
+            df.setMaximumFractionDigits(2);
+
+            String temperature = df.format(mTransferredTemp);
+            Log.d("temp",temperature);
             String summary = mSummaryLabel.getText().toString();
             String message = String.format("At %s it will be %s and %s",
                     time,
