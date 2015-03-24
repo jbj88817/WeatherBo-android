@@ -24,7 +24,7 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
 
     private Hour[] mHours;
     private Context mContext;
-    double mTransferredTemp;
+    private double mTransferredTemp;
 
     public HourAdapter(Context contexts, Hour[] hours) {
         mHours = hours;
@@ -102,7 +102,7 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
                     temperature,
                     summary);
 
-            Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
         }
     }
 }

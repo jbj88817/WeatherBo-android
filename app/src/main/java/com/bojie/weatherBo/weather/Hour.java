@@ -3,9 +3,6 @@ package com.bojie.weatherbo.weather;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.bojie.weatherbo.ui.MainActivity;
-import com.bojie.weatherbo.util.UnitConvert;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -43,12 +40,6 @@ public class Hour implements Parcelable{
 
     public void setTemperature(double temperature) {
         mTemperature = temperature;
-        // Convert units
-        if (MainActivity.mButtonUnitConvert.getText() == "F") {
-            mTemperature = temperature;
-        } else if (MainActivity.mButtonUnitConvert.getText() == "C") {
-            mTemperature = UnitConvert.fahrenheitToCelsius(temperature);
-        }
     }
 
     public String getIcon() {
