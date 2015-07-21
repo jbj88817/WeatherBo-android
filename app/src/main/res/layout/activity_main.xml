@@ -170,6 +170,17 @@
                 />
 
             <Button
+                android:id="@+id/btn_donate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:background="#40ffffff"
+                android:text="@string/btn_donate"
+                android:textColor="#ffffff"
+                />
+
+            <Button
                 android:id="@+id/btn_daily"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -179,6 +190,7 @@
                 android:text="@string/btn_7day"
                 android:textColor="#ffffff"
                 />
+
         </LinearLayout>
 
         <Button

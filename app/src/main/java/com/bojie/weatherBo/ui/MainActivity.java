@@ -400,6 +400,12 @@ public class MainActivity extends ActionBarActivity
 
     }
 
+    @OnClick(R.id.btn_donate)
+    public void makeADonation(View view) {
+        Intent intent = new Intent(this, DonateActivity.class);
+        startActivity(intent);
+    }
+
     @OnClick(R.id.btn_unit)
     public void convertUnit(View view) {
         if (mButtonUnitConvert.getText() == "F") {

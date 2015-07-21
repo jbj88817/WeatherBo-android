@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:background="#ffaa00"
+                android:paddingLeft="64dp"
+                android:paddingStart="64dp"
+                android:paddingRight="32dp"
+                android:paddingEnd="32dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
+
+
+
+    <ImageView
+        android:id="@+id/circleImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/bg_temperature"/>
+
+    <ImageView
+        android:id="@+id/iconImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/circleImageView"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/circleImageView"
+        android:layout_toRightOf="@+id/circleImageView"
+        android:src="@drawable/clear_day"
+        android:paddingLeft="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="1dp"
+        android:paddingRight="1dp"/>
+
+    <TextView
+        android:id="@+id/tv_dayName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/iconImageView"
+        android:layout_toRightOf="@+id/iconImageView"
+        android:textColor="#ffffffff"
+        android:textSize="20sp"
+        android:paddingLeft="5dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="2dp"
+        android:paddingRight="2dp"
+        tools:text="Wednesday"/>
+
+    <TextView
+        android:id="@+id/tv_temperatureLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/circleImageView"
+        android:layout_alignLeft="@+id/circleImageView"
+        android:layout_alignStart="@+id/circleImageView"
+        android:layout_alignEnd="@+id/circleImageView"
+        android:layout_alignRight="@+id/circleImageView"
+        android:layout_alignTop="@+id/circleImageView"
+        android:textColor="#f25019"
+        android:gravity="center"
+        tools:text="100"/>
+
+</RelativeLayout>
