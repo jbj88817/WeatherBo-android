@@ -30,6 +30,8 @@ import com.bojie.weatherbo.weather.Current;
 import com.bojie.weatherbo.weather.Day;
 import com.bojie.weatherbo.weather.Forecast;
 import com.bojie.weatherbo.weather.Hour;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -141,6 +143,11 @@ public class MainActivity extends ActionBarActivity
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeColors(R.color.swipeRefresh1, R.color.swipeRefresh2,
                 R.color.swipeRefresh3, R.color.swipeRefresh4);
+
+        //ADs
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     private void getCityName() {

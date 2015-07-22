@@ -24,6 +24,8 @@ MERGED from com.google.android.gms:play-services-maps:7.5.0:21:5
 MERGED from com.google.android.gms:play-services-maps:7.5.0:21:5
 MERGED from com.google.android.gms:play-services-wallet:7.5.0:20:5
 MERGED from com.google.android.gms:play-services-maps:7.5.0:21:5
+MERGED from com.google.android.gms:play-services-ads:7.5.0:20:5
+MERGED from com.google.android.gms:play-services-analytics:7.5.0:21:5
 	android:name
 		ADDED from AndroidManifest.xml:5:22
 uses-permission#android.permission.ACCESS_NETWORK_STATE
@@ -36,6 +38,8 @@ MERGED from com.google.android.gms:play-services-maps:7.5.0:20:5
 MERGED from com.google.android.gms:play-services-maps:7.5.0:20:5
 MERGED from com.google.android.gms:play-services-nearby:7.5.0:19:5
 MERGED from com.google.android.gms:play-services-maps:7.5.0:20:5
+MERGED from com.google.android.gms:play-services-ads:7.5.0:21:5
+MERGED from com.google.android.gms:play-services-analytics:7.5.0:22:5
 	android:name
 		ADDED from AndroidManifest.xml:6:22
 uses-permission#android.permission.ACCESS_FINE_LOCATION
@@ -143,6 +147,12 @@ MERGED from com.android.support:support-v4:22.2.1:22:5
 MERGED from com.google.android.gms:play-services-wearable:7.5.0:19:5
 MERGED from com.google.android.gms:play-services-base:7.5.0:20:5
 MERGED from com.android.support:support-v4:22.2.1:22:5
+MERGED from com.google.android.gms:play-services-ads:7.5.0:24:5
+MERGED from com.google.android.gms:play-services-base:7.5.0:20:5
+MERGED from com.android.support:support-v4:22.2.1:22:5
+MERGED from com.google.android.gms:play-services-analytics:7.5.0:24:5
+MERGED from com.google.android.gms:play-services-base:7.5.0:20:5
+MERGED from com.android.support:support-v4:22.2.1:22:5
 	android:label
 		ADDED from AndroidManifest.xml:14:9
 	android:allowBackup
@@ -230,10 +240,22 @@ MERGED from com.google.android.gms:play-services-base:7.5.0:21:9
 MERGED from com.google.android.gms:play-services-base:7.5.0:21:9
 MERGED from com.google.android.gms:play-services-base:7.5.0:21:9
 MERGED from com.google.android.gms:play-services-base:7.5.0:21:9
+MERGED from com.google.android.gms:play-services-base:7.5.0:21:9
+MERGED from com.google.android.gms:play-services-base:7.5.0:21:9
 	android:name
 		ADDED from AndroidManifest.xml:51:20
 	android:value
 		ADDED from AndroidManifest.xml:52:20
+activity#com.google.android.gms.ads.AdActivity
+ADDED from AndroidManifest.xml:54:9
+MERGED from com.google.android.gms:play-services-ads:7.5.0:26:9
+MERGED from com.google.android.gms:play-services-ads:7.5.0:26:9
+	android:configChanges
+		ADDED from AndroidManifest.xml:55:19
+	android:theme
+		ADDED from AndroidManifest.xml:56:19
+	android:name
+		ADDED from AndroidManifest.xml:54:19
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from com.android.support:appcompat-v7:22.2.1:20:5
@@ -324,22 +346,21 @@ MERGED from com.android.support:support-v4:22.2.1:20:5
 MERGED from com.google.android.gms:play-services-wearable:7.5.0:18:5
 MERGED from com.google.android.gms:play-services-base:7.5.0:18:5
 MERGED from com.android.support:support-v4:22.2.1:20:5
+MERGED from com.google.android.gms:play-services-ads:7.5.0:23:5
+MERGED from com.google.android.gms:play-services-base:7.5.0:18:5
+MERGED from com.android.support:support-v4:22.2.1:20:5
+MERGED from com.google.android.gms:play-services-analytics:7.5.0:18:5
+MERGED from com.google.android.gms:play-services-base:7.5.0:18:5
+MERGED from com.android.support:support-v4:22.2.1:20:5
 	android:targetSdkVersion
 		INJECTED from AndroidManifest.xml:0:0
 		INJECTED from AndroidManifest.xml:0:0
 	android:minSdkVersion
 		INJECTED from AndroidManifest.xml:0:0
 		INJECTED from AndroidManifest.xml:0:0
-activity#com.google.android.gms.ads.AdActivity
-ADDED from com.google.android.gms:play-services-ads:7.5.0:26:9
-	android:configChanges
-		ADDED from com.google.android.gms:play-services-ads:7.5.0:28:13
-	android:theme
-		ADDED from com.google.android.gms:play-services-ads:7.5.0:29:13
-	android:name
-		ADDED from com.google.android.gms:play-services-ads:7.5.0:27:13
 activity#com.google.android.gms.ads.purchase.InAppPurchaseActivity
 ADDED from com.google.android.gms:play-services-ads:7.5.0:30:9
+MERGED from com.google.android.gms:play-services-ads:7.5.0:30:9
 	android:theme
 		ADDED from com.google.android.gms:play-services-ads:7.5.0:31:13
 	android:name
