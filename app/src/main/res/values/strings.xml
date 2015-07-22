@@ -15,7 +15,7 @@
 
     <!-- Donate -->
     <string name="donate">Donate</string>
-    <string name="donate_header">Please consider supporting further development by donating to the developer!</string>
+    <string name="donate_header">Please consider supporting further development by donating to the developer. Thanks!</string>
     <string name="donate_paypal_title">PayPal</string>
     <string name="donate_paypal_description">Donate any amount with PayPal</string>
     <string name="donate_button">Donate</string>
@@ -24,7 +24,7 @@
     <string name="donate_in_app_spinner_text">Select a donation amount</string>
     <string-array name="donate_in_app_sku_array">
         <item>weatherbo.donations.small</item>
-        <item>weatherbo.donations.medium</item>
+        <item>weatherbo.donations.medium1</item>
         <item>weatherbo.donations.large</item>
     </string-array>
     <string name="donate_thank_you">Thank you for your donation!</string>

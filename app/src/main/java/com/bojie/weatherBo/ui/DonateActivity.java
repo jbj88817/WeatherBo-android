@@ -49,7 +49,7 @@ import java.util.List;
 public class DonateActivity extends AppCompatActivity {
     private final static String ITEM_TYPE_INAPP = "inapp";
     private final static String publicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgeJ9BvXGQu64xh+RRiw//frlgyAKHHCJrenb2w3F+r9Fij3zyiHYL+FYf1aEF3eoMgBJWRvGjefTBJMc2ABpcrMs9CUOOBZaJ8hf0Zn93481GZeb6amqfrBgAnTjJohfRJK7S9vzqYZowE09S+VTIHOEkBanC7k86Y+HTf9smUL1Ai+OJn6txgUtAIM3T1MSkZRIUQtvYuF7E/iaLPBPUIGkGPjkCIIF6yWl71yuOK1f8OTjKONDHw/rhS3jJlJO+x34jHUZjDhPuC0zFZLwhLeX9Bz6HR6TASCGTLpDqIWkLoaX70gdCpAXvJJqlEPBvEW0E8qdeTTtkwx7ljINPwIDAQAB";
-    private final static String PURCHASED_SKU = "com.bojie.weatherbo.ui.PURCHASED_SKU";
+    private final static String PURCHASED_SKU = "com.bojie.weatherbo.PURCHASED_SKU";
     private final static int RC_REQUEST = 1;
     private static final String RESPONSE_CODE = "RESPONSE_CODE";
     private static final String RESPONSE_GET_SKU_DETAILS_LIST = "DETAILS_LIST";

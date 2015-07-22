@@ -47,6 +47,7 @@
             android:id="@+id/paypal_button"
             android:layout_column="1"
             android:layout_gravity="end"
+            android:background="@color/ocean_green"
             android:text="@string/donate_button"/>
 
         <LinearLayout
@@ -98,6 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:background="@color/ocean_green"
                     android:text="@string/donate_button"/>
             </LinearLayout>
         </LinearLayout>
