@@ -15,7 +15,7 @@
 
     <!-- Donate -->
     <string name="donate">Donate</string>
-    <string name="donate_header">Please consider supporting further development by donating to the developer. Thanks!</string>
+    <string name="donate_header">Please consider supporting further development by removing ad or donating to the developer. Thanks!</string>
     <string name="donate_paypal_title">PayPal</string>
     <string name="donate_paypal_description">Donate any amount with PayPal</string>
     <string name="donate_button">Donate</string>
@@ -23,12 +23,12 @@
     <string name="donate_in_app_description">Donate using your Google account</string>
     <string name="donate_in_app_spinner_text">Select a donation amount</string>
     <string-array name="donate_in_app_sku_array">
-        <item>weatherbo.donations.small</item>
-        <item>weatherbo.donations.medium1</item>
-        <item>weatherbo.donations.large</item>
+        <item>weatherbo.donations.removeads</item>
+        <item>weatherbo.donations.removeads.smalldonation</item>
+        <item>weatherbo.donations.removeads.largedonation</item>
     </string-array>
     <string name="donate_thank_you">Thank you for your donation!</string>
-    <string name="btn_donate">DONATE</string>
+    <string name="btn_donate">Remove ADs</string>
 
     <string name="banner_ad_unit_id">ca-app-pub-4005336923636884/2056913053</string>
 

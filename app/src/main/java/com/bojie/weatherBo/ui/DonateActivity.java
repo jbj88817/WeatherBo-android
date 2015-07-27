@@ -78,6 +78,7 @@ public class DonateActivity extends AppCompatActivity {
      */
     String[] skus = new String[0];
     private ServiceConnection mServiceConn;
+    public static boolean isPaid = false;
 
     /**
      * Gets the response code from the given Bundle. Workaround to bug where sometimes response codes come as Long
@@ -391,6 +392,8 @@ public class DonateActivity extends AppCompatActivity {
                 // EasyTracker.getTracker().sendTransaction(transaction);
             }
             Toast.makeText(DonateActivity.this, R.string.donate_thank_you, Toast.LENGTH_LONG).show();
+            isPaid = true;
+
             if (finishActivity) {
                 if (BuildConfig.DEBUG)
                     Log.d(DonateActivity.class.getSimpleName(), "Finishing Donate Activity");

@@ -80,6 +80,8 @@ public class MainActivity extends ActionBarActivity
     private Forecast mForecast;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
+    private AdView mAdView;
+
     @InjectView(R.id.timeLabel)
     TextView mTimeLabel;
     @InjectView(R.id.temperatureLabel)
@@ -139,15 +141,17 @@ public class MainActivity extends ActionBarActivity
 //        }
 
         // SwipeRefresh
-        mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeColors(R.color.swipeRefresh1, R.color.swipeRefresh2,
                 R.color.swipeRefresh3, R.color.swipeRefresh4);
 
         //ADs
-        AdView mAdView = (AdView) findViewById(R.id.adView);
+        mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
+
     }
 
     private void getCityName() {
@@ -173,6 +177,15 @@ public class MainActivity extends ActionBarActivity
         if (mLongitude != 0 && mLatitude != 0) {
             getForecast(mLatitude, mLongitude);
             getCityName();
+        }
+        if (DonateActivity.isPaid) {
+            mAdView.setEnabled(false);
+            mAdView.setVisibility(View.GONE);
+        } else {
+            mAdView.setEnabled(true);
+            mAdView.setVisibility(View.VISIBLE);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
         }
 
     }
