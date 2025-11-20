@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var mAdView: AdView
 
-    private var apiKeyIndex = 0 // Track which API key we're using
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -300,16 +300,9 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
     }
     
     private fun fetchWeatherData(latitude: Double, longitude: Double) {
-        // Using OpenWeatherMap API instead of forecast.io (Dark Sky) which is deprecated
-        // Try multiple API keys in case one is not working
-        val apiKeys = arrayOf(
-            "8c99ceea4e74b9b23a44b929973ad718",
-        )
-        val apiKey = apiKeys[apiKeyIndex] // Use the currently selected key
+        val forecastUrl = "https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude&current=temperature_2m,relative_humidity_2m,weather_code,precipitation_probability&hourly=temperature_2m,weather_code,precipitation_probability&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&timeformat=unixtime"
         
-        val forecastUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=$latitude&lon=$longitude&exclude=minutely&units=imperial&appid=$apiKey"
-        
-        Log.d(TAG, "API URL: $forecastUrl (using API key index: $apiKeyIndex)")
+        Log.d(TAG, "API URL: $forecastUrl")
         
         if (isNetworkAvailable()) {
             toggleRefresh()
@@ -353,7 +346,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
                                 }
                             } else {
                                 try {
-                                    mForecast = parseOpenWeatherMapData(jsonData)
+                                    mForecast = parseOpenMeteoData(jsonData)
                                     runOnUiThread { updateDisplay() }
                                 } catch (e: Exception) {
                                     runOnUiThread {
@@ -370,35 +363,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
                         } else {
                             runOnUiThread {
                                 Log.e(TAG, "API Error: ${response.code} - ${response.message}")
-                                
-                                // If we get a 401 unauthorized error, try with a different API key
-                                if (response.code == 401) {
-                                    val currentKeyIndex = apiKeyIndex
-                                    if (currentKeyIndex < apiKeys.size - 1) {
-                                        // Try the next API key
-                                        apiKeyIndex++
-                                        Log.d(TAG, "Trying with next API key (index: $apiKeyIndex)")
-                                        Toast.makeText(
-                                            this@MainActivity,
-                                            "API key unauthorized, trying another key...",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        fetchWeatherData(latitude, longitude)
-                                        return@runOnUiThread
-                                    } else {
-                                        // We've tried all API keys, use fallback data
-                                        Log.d(TAG, "All API keys failed, using fallback weather data")
-                                        Toast.makeText(
-                                            this@MainActivity,
-                                            "Using demo weather data (API key issue)",
-                                            Toast.LENGTH_LONG
-                                        ).show()
-                                        mForecast = createFallbackWeatherData()
-                                        updateDisplay()
-                                    }
-                                } else {
-                                    alertUserAboutError()
-                                }
+                                alertUserAboutError()
                             }
                         }
                     } catch (e: IOException) {
@@ -464,68 +429,65 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         }
     }
     
-    private fun parseOpenWeatherMapData(jsonData: String): Forecast {
+    private fun parseOpenMeteoData(jsonData: String): Forecast {
         val forecast = Forecast()
         try {
             val rootObject = JSONObject(jsonData)
-            Log.d(TAG, "Parsing OpenWeatherMap JSON data")
-            
+            Log.d(TAG, "Parsing Open-Meteo JSON data")
+
             // Parse timezone
             val timezone = rootObject.getString("timezone")
-            
+
             // Parse current weather
             val currentObject = rootObject.getJSONObject("current")
             val current = Current()
-            current.humidity = currentObject.getDouble("humidity") / 100.0
-            current.time = currentObject.getLong("dt")
-            current.temperature = currentObject.getDouble("temp")
+            current.humidity = currentObject.getDouble("relative_humidity_2m") / 100.0
+            current.time = currentObject.getLong("time")
+            current.temperature = currentObject.getDouble("temperature_2m")
             current.timeZone = timezone
-            current.precipChance = if (currentObject.has("pop")) currentObject.getDouble("pop") else 0.0
-            
-            // Get weather description and icon
-            val weatherArray = currentObject.getJSONArray("weather")
-            if (weatherArray.length() > 0) {
-                val weatherObject = weatherArray.getJSONObject(0)
-                current.summary = weatherObject.getString("description")
-                // Map OpenWeatherMap icons to our custom icons
-                current.icon = mapOpenWeatherIconToOurFormat(weatherObject.getString("icon"))
-            }
-            
+            current.precipChance = currentObject.getDouble("precipitation_probability") / 100.0
+
+            val weatherCode = currentObject.getInt("weather_code")
+            current.summary = getWeatherDescription(weatherCode)
+            current.icon = mapWmoIconToOurFormat(weatherCode)
+
             current.cityName = mCityName
             forecast.current = current
-            
+
             // Parse hourly forecast
-            val hourlyArray = rootObject.getJSONArray("hourly")
-            val hours = Array(24) { i ->
-                val hourObject = hourlyArray.getJSONObject(i)
+            val hourlyObject = rootObject.getJSONObject("hourly")
+            val timeArray = hourlyObject.getJSONArray("time")
+            val tempArray = hourlyObject.getJSONArray("temperature_2m")
+            val codeArray = hourlyObject.getJSONArray("weather_code")
+            
+            val hours = Array(Math.min(timeArray.length(), 24)) { i ->
                 val hour = Hour()
-                hour.time = hourObject.getLong("dt")
-                hour.temperature = hourObject.getDouble("temp")
+                hour.time = timeArray.getLong(i)
+                hour.temperature = tempArray.getDouble(i)
                 hour.timezone = timezone
                 
-                val precipProbability = if (hourObject.has("pop")) hourObject.getDouble("pop") else 0.0
-                
-                val weatherData = hourObject.getJSONArray("weather").getJSONObject(0)
-                hour.summary = weatherData.getString("description")
-                hour.icon = mapOpenWeatherIconToOurFormat(weatherData.getString("icon"))
+                val code = codeArray.getInt(i)
+                hour.summary = getWeatherDescription(code)
+                hour.icon = mapWmoIconToOurFormat(code)
                 
                 hour
             }
             forecast.hourlyForecast = hours
-            
+
             // Parse daily forecast
-            val dailyArray = rootObject.getJSONArray("daily")
-            val days = Array(Math.min(dailyArray.length(), 7)) { i ->
-                val dayObject = dailyArray.getJSONObject(i)
+            val dailyObject = rootObject.getJSONObject("daily")
+            val dailyTimeArray = dailyObject.getJSONArray("time")
+            val dailyTempMaxArray = dailyObject.getJSONArray("temperature_2m_max")
+            val dailyCodeArray = dailyObject.getJSONArray("weather_code")
+            
+            val days = Array(Math.min(dailyTimeArray.length(), 7)) { i ->
                 val day = Day()
-                day.time = dayObject.getLong("dt")
+                day.time = dailyTimeArray.getLong(i)
+                day.temperatureMax = dailyTempMaxArray.getDouble(i)
                 
-                val tempObject = dayObject.getJSONObject("temp")
-                day.temperatureMax = tempObject.getDouble("max")
-                
-                val weatherData = dayObject.getJSONArray("weather").getJSONObject(0)
-                day.summary = weatherData.getString("description")
-                day.icon = mapOpenWeatherIconToOurFormat(weatherData.getString("icon"))
+                val code = dailyCodeArray.getInt(i)
+                day.summary = getWeatherDescription(code)
+                day.icon = mapWmoIconToOurFormat(code)
                 
                 day.timezone = timezone
                 day.cityName = mCityName
@@ -533,26 +495,61 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
                 day
             }
             forecast.dailyForecast = days
-            
+
         } catch (e: JSONException) {
-            Log.e(TAG, "Error parsing OpenWeatherMap JSON: ${e.message}", e)
+            Log.e(TAG, "Error parsing Open-Meteo JSON: ${e.message}", e)
         }
-        
+
         return forecast
     }
     
-    private fun mapOpenWeatherIconToOurFormat(openWeatherIcon: String): String {
-        return when {
-            openWeatherIcon.contains("01") -> "clear-day" // clear sky
-            openWeatherIcon.contains("02") -> "partly-cloudy-day" // few clouds
-            openWeatherIcon.contains("03") -> "partly-cloudy-day" // scattered clouds
-            openWeatherIcon.contains("04") -> "cloudy" // broken clouds
-            openWeatherIcon.contains("09") -> "rain" // shower rain
-            openWeatherIcon.contains("10") -> "rain" // rain
-            openWeatherIcon.contains("11") -> "thunderstorm" // thunderstorm
-            openWeatherIcon.contains("13") -> "snow" // snow
-            openWeatherIcon.contains("50") -> "fog" // mist
-            else -> "clear-day" // default
+    private fun mapWmoIconToOurFormat(weatherCode: Int): String {
+        return when (weatherCode) {
+            0 -> "clear-day"
+            1, 2, 3 -> "partly-cloudy-day"
+            45, 48 -> "fog"
+            51, 53, 55 -> "rain"
+            61, 63, 65 -> "rain"
+            66, 67 -> "rain" // Freezing rain
+            71, 73, 75 -> "snow"
+            77 -> "snow"
+            80, 81, 82 -> "rain"
+            85, 86 -> "snow"
+            95 -> "thunderstorm"
+            96, 99 -> "thunderstorm"
+            else -> "clear-day"
+        }
+    }
+    
+    private fun getWeatherDescription(weatherCode: Int): String {
+        return when (weatherCode) {
+            0 -> "Clear sky"
+            1 -> "Mainly clear"
+            2 -> "Partly cloudy"
+            3 -> "Overcast"
+            45 -> "Fog"
+            48 -> "Depositing rime fog"
+            51 -> "Light drizzle"
+            53 -> "Moderate drizzle"
+            55 -> "Dense drizzle"
+            61 -> "Slight rain"
+            63 -> "Moderate rain"
+            65 -> "Heavy rain"
+            66 -> "Light freezing rain"
+            67 -> "Heavy freezing rain"
+            71 -> "Slight snow fall"
+            73 -> "Moderate snow fall"
+            75 -> "Heavy snow fall"
+            77 -> "Snow grains"
+            80 -> "Slight rain showers"
+            81 -> "Moderate rain showers"
+            82 -> "Violent rain showers"
+            85 -> "Slight snow showers"
+            86 -> "Heavy snow showers"
+            95 -> "Thunderstorm"
+            96 -> "Thunderstorm with slight hail"
+            99 -> "Thunderstorm with heavy hail"
+            else -> "Unknown"
         }
     }
     
