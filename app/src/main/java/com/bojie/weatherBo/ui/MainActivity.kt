@@ -55,15 +55,19 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         const val HOURLY_FORECAST = "HOURLY_FORECAST"
         const val CITY_NAME = "CITYNAME"
         const val LOCATION_PERMISSION_REQUEST_CODE = 1001
+        const val PREFS_NAME = "weather_prefs"
+        const val KEY_IS_FAHRENHEIT = "is_fahrenheit"
         
         lateinit var mButtonUnitConvert: Button
     }
 
     private var mLongitude: Double = 0.0
     private var mLatitude: Double = 0.0
+
     private var mCityName: String = ""
     private var mCurrentTempInF: Double = 0.0
     private var mCurrentTempInC: Double = 0.0
+    private var isFahrenheit: Boolean = true
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
@@ -80,7 +84,14 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         
+        setContentView(binding.root)
+        
         mButtonUnitConvert = findViewById(R.id.btn_unit)
+
+        // Load preference
+        val settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        isFahrenheit = settings.getBoolean(KEY_IS_FAHRENHEIT, true)
+        updateUnitButtonText()
         
         binding.progressBar.visibility = View.INVISIBLE
         
@@ -426,6 +437,24 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
             
             mCurrentTempInF = current.temperature
             mCurrentTempInC = UnitConvert.fahrenheitToCelsius(mCurrentTempInF)
+
+            updateTemperatureDisplay()
+        }
+    }
+
+    private fun updateTemperatureDisplay() {
+        if (isFahrenheit) {
+            binding.temperatureLabel.text = round(mCurrentTempInF).toInt().toString()
+        } else {
+            binding.temperatureLabel.text = round(mCurrentTempInC).toInt().toString()
+        }
+    }
+
+    private fun updateUnitButtonText() {
+        if (isFahrenheit) {
+            mButtonUnitConvert.text = "F"
+        } else {
+            mButtonUnitConvert.text = "C"
         }
     }
     
@@ -595,13 +624,16 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
     }
     
     private fun toggleTemperatureUnit() {
-        if (mButtonUnitConvert.text == "F") {
-            mButtonUnitConvert.text = "C"
-            binding.temperatureLabel.text = round(mCurrentTempInC).toInt().toString()
-        } else {
-            mButtonUnitConvert.text = "F"
-            binding.temperatureLabel.text = round(mCurrentTempInF).toInt().toString()
-        }
+        isFahrenheit = !isFahrenheit
+        
+        // Save preference
+        val settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val editor = settings.edit()
+        editor.putBoolean(KEY_IS_FAHRENHEIT, isFahrenheit)
+        editor.apply()
+
+        updateUnitButtonText()
+        updateTemperatureDisplay()
     }
     
     private fun createFallbackWeatherData(): Forecast {
