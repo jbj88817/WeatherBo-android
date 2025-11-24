@@ -14,6 +14,7 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="60dp"
         tools:context=".MainActivity">
 
         <TextView
@@ -63,6 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
+            android:layout_marginTop="40dp"
             ads:adSize="BANNER"
             ads:adUnitId="@string/banner_ad_unit_id">
         </com.google.android.gms.ads.AdView>
@@ -153,6 +155,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
             android:src="@drawable/refresh"/>
 
         <ProgressBar
@@ -161,7 +164,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/refreshImageView"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
